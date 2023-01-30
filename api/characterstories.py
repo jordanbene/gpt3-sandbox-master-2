@@ -3,8 +3,7 @@ import sys
 import json
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-print(sys.path.append(os.path.dirname(os.path.realpath(__file__)))
-)
+print(sys.path.append(os.path.dirname(os.path.realpath(__file__))))
 #sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from api.gpt import GPT, Example
@@ -28,7 +27,7 @@ answer_suffix = "\n\n"
 # Construct GPT object and show some examples
 gpt = GPT(engine="text-davinci-003",
           temperature=0.5,
-          max_tokens=10,
+          max_tokens=100,
           input_prefix=question_prefix,
           input_suffix=question_suffix,
           output_prefix=answer_prefix,
@@ -44,7 +43,7 @@ gpt.add_example(Example('I try to open the door.',
 # Define UI configuration
 config = UIConfig(description="Input",
                   button_text="Continue",
-                  placeholder="You begin outside a house in the middle of the forest.")
+                  placeholder="What do you do?")
 
 
 

@@ -6,8 +6,8 @@ import './App.css';
 import { ChatFeed, Message, ChatUI } from 'react-chat-ui'
 import Chatbox from './Chatbox.js'
 import './chatbot.css';
-import messagesData from './messagesData.json';
-
+//import messagesData from './messagesData.json';
+import messageData from './new_messages.json';
 //test
 //comment this to use app.css
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,6 +22,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      
       output: "",
       input: "",
       buttonText: "Submit",

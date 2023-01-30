@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { ChatFeed, Message, ChatBubbleProps } from 'react-chat-ui'
 import messagesData from './messagesData.json'
+//import messagesData from './new_messages.json';
+
+
 import axios from 'axios';
 import chatbot from './chatbot.css';
 
+  
 class Chatbox extends Component {
   constructor(props) {
     super(props);
@@ -13,9 +17,19 @@ class Chatbox extends Component {
   }
 
   componentDidMount() {
-    this.setState({ messages: messagesData });
-  }
+    //this.setState({ messages: messagesData });
+    const messages = messagesData.map(data => {
+      return new Message({
+        id: data.message.index,
+        message: data.message,
+        senderName: data.isUser === 'true' ? 'User' : 'Bot',
+      });
+    });
+    this.setState({ messages });
+    console.log("ISUSER 2:  ", messages)
 
+  }
+  
   handleNewMessage = (newMessage) => {
     this.setState({ messages: [...this.state.messages, newMessage] });
   };
@@ -23,15 +37,15 @@ class Chatbox extends Component {
   chatBubbleProps = (message) => {
     return {
       showAvatar: true,
-      isOwnMessage: Boolean(message.isUser),
+      isOwnMessage: message.isUser === 'true',
       isFirst: true,
       isLast: true,
-      position: Boolean(message.isUser) ? "right" : "left"
+      position: message.isUser === 'true' ? 'right' : 'left'
     }
   }
 
   messageProps = (message) => {
-    console.log("ISUSER:  ", message.isUser)
+    console.log("ISUSER:  ", message)
     if (message.isUser === 'true') {
       return {
         right: true,
@@ -59,21 +73,23 @@ class Chatbox extends Component {
 
   render() {
     return (
+      
       <div className="chat-container">
+        
         <ChatFeed
           messages={this.state.messages}
           onNewMessage={this.handleNewMessage}
           chatBubbleProps={(message, index) => this.chatBubbleProps(message, index)}
+          messageProps={(message) => this.messageProps(message)}
+          
         />
+        
         <button className="clear-history-btn" onClick={this.clearHistory}>Clear History</button>
+        
       </div>
     );
   }
-  chatBubbleProps(message, index) {
-    return {
-      className: message.sender === 'AI' ? 'chatbubble ai' : 'chatbubble user'
-    }
-  }
+  
 }
 
 export default Chatbox;

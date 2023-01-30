@@ -9,6 +9,7 @@ import os
 import json 
 
 messages_data_file = "../src/messagesData.json"
+formatted_messages_file = "../src/new_messages.json"
 
 def set_openai_key(key):
     """Sets OpenAI key."""
@@ -70,7 +71,7 @@ class GPT:
         
 
        
-
+        
         self.logContext=True
         self.topic="Text Adventure Game: ZaugQuest"  # TODO: change it to your topic name, allow user to change this to change chat save name
         self.log_path='./history'
@@ -145,7 +146,10 @@ class GPT:
         except Exception as e:
             print(f'An error occurred while clearing log file at {file_path}')
             print(e)
-
+    def clear_json_file(self, file_path):
+        with open(file_path, "w") as file:
+            file.write("{}")
+            
     def extract_log_text(self, file_path):
         with open(file_path, 'r') as file:
             text = file.read()
@@ -154,6 +158,8 @@ class GPT:
     def clear_all_logged_context(self):
         self.clear_log(self.context_log)
         self.clear_log(self.prompt_log)
+        self.clear_json_file(formatted_messages_file)
+
         self.context=""
     
 
@@ -180,7 +186,6 @@ class GPT:
             
             #append the context to the query
             q = log_text + q
-
             
         return q
 
@@ -194,7 +199,7 @@ class GPT:
                                             n=1,
                                             stream=False,
                                             stop=self.stop)
-        print("GPT object created", response)
+        #print("GPT object created", response)
 
         #append the response to the prompt_log 
         self.write_logs(self.prompt_log, prompt + '\n')
@@ -212,6 +217,10 @@ class GPT:
         self.write_message_to_file(prompt, 'true')
         self.write_message_to_file(response['choices'][0]['text'], 'false')
 
+        messages = self.format_messagesdata()
+        print(messages)
+        self.write_to_json_new_messages(messages,formatted_messages_file )
+
         #add to front end log
         return response
 
@@ -223,6 +232,21 @@ class GPT:
         messages.append(data)
         with open(messages_data_file, "w") as f:
             json.dump(messages, f)
+
+    def format_messagesdata(self):
+        with open(messages_data_file, "r") as f:
+            data = json.load(f)
+
+        result = []
+        for i, message_info in enumerate(data):
+            result.append({"index": i + 1, "message": message_info["message"], "isUser": message_info["isUser"]})
+
+        return result
+
+    def write_to_json_new_messages(self, results, file_name):
+        with open(file_name, 'w') as file:
+            json.dump(results, file)
+            
 
     def get_top_reply(self, prompt):
         """Obtains the best result as returned by the API."""
