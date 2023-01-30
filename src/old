@@ -1,0 +1,79 @@
+import React, { useState, useEffect } from 'react';
+import { ChatFeed, Message, ChatBubbleProps  } from 'react-chat-ui'
+import messagesData from './messagesData.json'
+import axios from 'axios';
+import chatbot from './chatbot.css';
+
+
+const Chatbox = () => {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    setMessages(messagesData);
+  }, []);
+
+  const handleNewMessage = (newMessage) => {
+    setMessages([...messages, newMessage]);
+  };
+  const chatBubbleProps = (message) => {
+    return {
+      showAvatar: true,
+      isOwnMessage: Boolean(message.isUser) ,
+      isFirst: true,
+      isLast: true,
+      position: Boolean(message.isUser) ? "right" : "left"
+    }
+  }
+  const messageProps = (message) => {
+    console.log("ISUSER:  ", message.isUser)
+    if (message.isUser === 'true') {
+      return {
+        right: true,
+        backgroundColor: '#0084ff',
+        color: '#fff'
+      }
+    } else {
+      return {
+        left: true,
+        backgroundColor: '#f0f0f0',
+        color: '#000'
+      }
+    }
+  }
+  
+  const clearHistory = async  () => {
+    setMessages([]);
+    try {
+      const response = await axios.post('http://localhost:5000/clear-history');
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+    
+
+  }
+  return (
+    <div className="chat-container">
+    <ChatFeed 
+      messages={ messages}
+      onNewMessage={handleNewMessage}
+      
+      chatBubbleProps={(message, index) => chatBubbleProps(message, index)}
+      messageProps={(message, index) => messageProps(message, index)}
+
+
+      //chatBubbleProps={chatBubbleProps}
+      //messageProps={messageProps}
+      
+    />
+  
+    <button className="clear-history-btn" onClick={clearHistory}>Clear History</button>
+   
+  </div>
+
+    
+    
+  );
+}
+
+export default Chatbox;
