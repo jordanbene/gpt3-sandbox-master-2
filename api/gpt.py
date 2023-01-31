@@ -75,7 +75,10 @@ class GPT:
         self.logContext=True
         self.topic="Text Adventure Game: ZaugQuest"  # TODO: change it to your topic name, allow user to change this to change chat save name
         self.log_path='./history'
-        self.context=""
+        self.current_context=""
+        self.last_context=""
+        self.full_context=""
+
         self.keep_context=True
         self.context_log = self.log_path + '/' + re.sub('[^0-9a-zA-Z]+', '', self.topic) + 'context_log.log'
         self.prompt_log = self.log_path + '/' + re.sub('[^0-9a-zA-Z]+', '', self.topic) + '_prompts.log'
@@ -160,7 +163,7 @@ class GPT:
         self.clear_log(self.prompt_log)
         self.clear_json_file(formatted_messages_file)
 
-        self.context=""
+        self.current_context=""
     
 
 #where the query is actually crafted
@@ -176,7 +179,8 @@ class GPT:
         if self.logContext:
             #clear log on start
             #self.clear_log(self.context_log)
-            print("Initial Query:  ", q + "   End of Query")
+            
+            #print("Initial Query:  ", q + "   End of Query")
 
             #first create log files if there arent any
             self.create_log_files()
@@ -186,6 +190,7 @@ class GPT:
             
             #append the context to the query
             q = log_text + q
+            print("CURRENT CONTEXT: " + self.current_context + " END OF CONTEXT" + "   FULL CONTEXT:  ", self.full_context + "   End of Full Context:" + "Log Text:  ", log_text + "   End of Log Text"     )
             
         return q
 
@@ -205,13 +210,16 @@ class GPT:
         self.write_logs(self.prompt_log, prompt + '\n')
 
         #append the response to the context_log
-        self.context =  prompt + response['choices'][0]['text'] + '\n'
+        #self.current_context = "Recent Story Context: " + prompt + response['choices'][0]['text'] + '\n'
+        self.current_context = self.last_context + prompt + response['choices'][0]['text'] + '\n'
+        self.full_context = "Recent Story Context: " + prompt + response['choices'][0]['text'] + '\n'
+        self.last_context = prompt + response['choices'][0]['text'] + '\n'
 
         #write the context to the context_log
-        self.write_logs(self.context_log, self.context)
+        self.write_logs(self.context_log, self.current_context)
 
         #print("Prompts: " + self.input_prefix + prompt + self.input_suffix)
-        print("Context: " + self.context)
+        print("CONTEXT: " + self.current_context)
 
         # append the prompt to the Messages Data file
         self.write_message_to_file(prompt, 'true')
@@ -258,6 +266,7 @@ class GPT:
         return self.input_prefix + ex.get_input(
         ) + self.input_suffix + self.output_prefix + ex.get_output(
         ) + self.output_suffix
+    
 
 
 

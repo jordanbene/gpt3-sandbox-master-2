@@ -20,14 +20,15 @@ load_dotenv()
 KEY_NAME = os.getenv("OPENAI_KEY") #env variable instead of public so it doesn't get published on deplpoy
 
 
-def demo_web_app(gpt, config=UIConfig()):
+def demo_web_app(gpt, config=UIConfig(), starting_prompt=" "):
     """Creates Flask app to serve the React app."""
     app = Flask(__name__)
-
+    
     #app.config.from_envvar(CONFIG_VAR)
     #set_openai_key(app.config[KEY_NAME])
     set_openai_key(KEY_NAME)
-
+    
+        
     @app.route("/params", methods=["GET"])
     def get_params():
         # pylint: disable=unused-variable
@@ -80,6 +81,31 @@ def demo_web_app(gpt, config=UIConfig()):
         gpt.delete_example(example_id)
         return json.dumps(gpt.get_all_examples())
 
+    def prompt_openai_naked(prompt):
+        """Prompts OpenAI without any formatting."""
+        response = openai.Completion.create(
+            engine=config.engine,
+            temperature=config.temperature,
+            max_tokens=config.max_tokens,
+            prompt=prompt,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0,
+            #stop=["\n", " Human:", " AI:"],
+        )
+        return response
+
+    def prompt_openai(prompt):
+        #request.json[prompt]
+        response = gpt.submit_request(prompt)
+        offset = 0
+        if not gpt.append_output_prefix_to_query:
+            offset = len(gpt.output_prefix)
+        return {'text': response['choices'][0]['text'][offset:]}
+    
+    with app.test_request_context():
+        response = prompt_openai(starting_prompt)
+
     @app.route(
         "/examples",
         methods=["GET", "POST"],
@@ -120,4 +146,5 @@ def demo_web_app(gpt, config=UIConfig()):
         #return jsonify({"message": "History cleared"})
 
     subprocess.Popen(["yarn", "start"], shell=True)
+
     app.run()#host='0.0.0.0', port=5000

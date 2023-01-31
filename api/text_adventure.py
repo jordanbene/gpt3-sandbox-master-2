@@ -27,7 +27,7 @@ answer_suffix = "\n\n"
 # Construct GPT object and show some examples
 gpt = GPT(engine="text-davinci-003",
           temperature=0.8,
-          max_tokens=100,
+          max_tokens=200,
           input_prefix=question_prefix,
           input_suffix=question_suffix,
           output_prefix=answer_prefix,
@@ -36,10 +36,16 @@ gpt = GPT(engine="text-davinci-003",
           
           )
 
-gpt.add_example(Example('I look around',
-                        'To the north is {insert an event}, to the south is {insert an event}, to the east is {insert an event} and to the west {insert an event}. What do you do? '))
 
+gpt.add_example(Example('I jump over the spikes and enter the castle',
+'The spikes are too high to jump over. You can try to find another way into the castle or choose another direction to go. What do you do? '))
 
+gpt.add_example(Example('What commands can I use?','The commands available to you are: Do - to do an action. Look - to look around your environment. Move (place) - to go somewhere within the enviorment. Fight - to engage in combat with an enemy. Flee - to run away from an enemy. Inventory - to view the items in your inventory. Use - to use an item in your inventory or environment. Pick Up - to pick up an item. '))
+
+gpt.add_example(Example('I explore the ruined tower',
+'As you approach the ruined tower, you see that it is unstable and could collapse at any moment. Do you want to enter the tower or choose another direction to go? '))
+
+gpt.add_example(Example('How many pieces of the Chronus sword are in my inventory?','Youve collected one piece of the Chronus Sword.'))
 # Define UI configuration
 config = UIConfig(description="Input",
                   button_text="Continue",
@@ -47,5 +53,4 @@ config = UIConfig(description="Input",
 
 
 
-
-demo_web_app(gpt, config)
+demo_web_app(gpt, config, "What commands can I use?")
