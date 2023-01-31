@@ -111,10 +111,11 @@ class App extends React.Component {
   render() {
     const showExampleForm = this.state.showExampleForm;
     return (
-      
+      <body style={{ alignItems: "center", justifyContent: "center" }}>
+      <head />
       <div>
-        <head />
-        <body style={{ alignItems: "center", justifyContent: "center" }}>
+       
+        
           <div
             style={{
               margin: "auto",
@@ -218,11 +219,11 @@ class App extends React.Component {
                 {this.state.buttonText}
               </Button>
               <div
-                class="spinner-border spinner-border-sm text-primary"
+                className="spinner-border spinner-border-sm text-primary"
                 role="status"
                 id="loading"
               >
-                <span class="sr-only">Loading...</span>
+                <span className="sr-only">Loading...</span>
               </div>
             </Form>
             <div
@@ -235,8 +236,9 @@ class App extends React.Component {
               {this.state.output}
             </div>
           </div>
-        </body>
+        
       </div>
+      </body>
     );
   }
   

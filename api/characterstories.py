@@ -19,14 +19,14 @@ restart_sequence = "\n\n"
 
 question_prefix =  'Player: '
 question_suffix = "\n"
-answer_prefix = session_prompt + "Adim - Dungeon Master: "
+answer_prefix = session_prompt + "Adim Dungeon Master: "
 answer_suffix = "\n\n"
 
 
 
 # Construct GPT object and show some examples
 gpt = GPT(engine="text-davinci-003",
-          temperature=0.5,
+          temperature=0.8,
           max_tokens=100,
           input_prefix=question_prefix,
           input_suffix=question_suffix,
@@ -36,8 +36,8 @@ gpt = GPT(engine="text-davinci-003",
           
           )
 
-gpt.add_example(Example('I try to open the door.',
-                        'The door opens to reveal a dimly lit room with a single table. There is a note on the table.'))
+gpt.add_example(Example('I look around',
+                        'To the north is {insert an event}, to the south is {insert an event}, to the east is {insert an event} and to the west {insert an event}. What do you do? '))
 
 
 # Define UI configuration

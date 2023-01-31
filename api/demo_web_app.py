@@ -115,9 +115,9 @@ def demo_web_app(gpt, config=UIConfig()):
     @app.route("/clear-history", methods=['POST'])
     def clear_history():
         with open('../src/messagesData.json', 'w') as json_file:
-            json.dump([{"message": "Adim Ai loading...","isUser": "false"}], json_file)
-            gpt.clear_all_logged_context()
+            json.dump([{"message": "Adim AI loading...\n Welcome to Zaug Quest! This is a game of freedom, chaos, and Joy-Slaying fun! Play as Zaug, the Dark Lord Prince as he battles his way across Kadarz. Use your imagination to procceed.","isUser": "false"}], json_file)
+            gpt.clear_all_logged_context() 
         #return jsonify({"message": "History cleared"})
 
     subprocess.Popen(["yarn", "start"], shell=True)
-    app.run()
+    app.run()#host='0.0.0.0', port=5000

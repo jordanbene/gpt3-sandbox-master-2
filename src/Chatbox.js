@@ -20,9 +20,9 @@ class Chatbox extends Component {
     //this.setState({ messages: messagesData });
     const messages = messagesData.map(data => {
       return new Message({
-        id: data.message.index,
+        id: data.message.id,
         message: data.message,
-        senderName: data.isUser === 'true' ? 'User' : 'Bot',
+        senderName: data.message.isUser === 'true' ? 'User' : 'Bot',
       });
     });
     this.setState({ messages });
