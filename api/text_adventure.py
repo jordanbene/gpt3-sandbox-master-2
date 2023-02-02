@@ -23,10 +23,8 @@ from api import UIConfig, master_prompt_loader
 #from api import GPT, Example, UIConfig, master_prompt_loader
 from api import demo_web_app
 
-app = Flask(__name__, static_folder='./build', static_url_path='/')
+app = Flask(__name__, static_folder='public')
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
 text = master_prompt_loader.get_master_prompt("ZaugQuest")
 session_prompt = str(text) + "\n"
@@ -193,6 +191,7 @@ def clear_history():
     
     #app.run()#host='0.0.0.0', port=5000
     #app.run(host='0.0.0.0', port=5000)    
+
 
 
 
