@@ -7,8 +7,8 @@ import openai
 
 from flask import Flask, request, Response, jsonify
 
-from gpt import set_openai_key, Example
-from ui_config import UIConfig
+from api.gpt import set_openai_key, Example
+from api.ui_config import UIConfig
 
 from dotenv import load_dotenv
 import os
