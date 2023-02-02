@@ -2,8 +2,7 @@ from flask import request
 import api.text_adventure
 text = "./api/text_adventure.py" 
 from flask import Flask
-app = Flask(__name__)
+from api import text_adventure
 
-@app.route('/', methods=['GET', 'POST'])
-def landing():
-    return api.text_adventure
+if __name__ == '__main__':
+    text_adventure.app.run(debug=False)
