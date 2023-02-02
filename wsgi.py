@@ -1,8 +1,8 @@
 from flask import request
-import text_adventure;
+text = "./api/text_adventure.py" 
 from flask import Flask
-app = Flask(__name__)
+app = Flask(text)
 
 @app.route('/', methods=['GET', 'POST'])
 def landing():
-    return text_adventure
+    return text
