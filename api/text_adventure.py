@@ -69,12 +69,8 @@ starting_prompt="What commands can I use?"
     
   
 set_openai_key(KEY_NAME)
-    
-@app.route('/')
-def index():
-    '''Index page route'''
-    return app.send_static_file('index.html')
-    
+
+
 @app.route("/params", methods=["GET"])
 def get_params():
         # pylint: disable=unused-variable
