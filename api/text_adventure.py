@@ -13,7 +13,7 @@ from api import UIConfig, master_prompt_loader
 from api import demo_web_app
 
 text = master_prompt_loader.get_master_prompt("ZaugQuest")
-session_prompt = text + "\n"
+session_prompt = str(text) + "\n"
 start_sequence = "\n:"
 restart_sequence = "\n\n"
 
