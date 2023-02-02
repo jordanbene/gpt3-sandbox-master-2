@@ -23,7 +23,7 @@ from api import UIConfig, master_prompt_loader
 #from api import GPT, Example, UIConfig, master_prompt_loader
 from api import demo_web_app
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='public')
 
 
 text = master_prompt_loader.get_master_prompt("ZaugQuest")
