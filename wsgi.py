@@ -8,7 +8,7 @@ app = text_adventure.app
 app.static_folder = 'public'
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
  
 @app.route('/')
 def index():
