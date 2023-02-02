@@ -103,8 +103,8 @@ def demo_web_app(gpt, config=UIConfig(), starting_prompt=" "):
             offset = len(gpt.output_prefix)
         return {'text': response['choices'][0]['text'][offset:]}
     
-    with app.test_request_context():
-        response = prompt_openai(starting_prompt)
+    #with app.test_request_context():
+        #response = prompt_openai(starting_prompt)
 
     @app.route(
         "/examples",
