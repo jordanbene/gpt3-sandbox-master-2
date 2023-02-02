@@ -13,5 +13,5 @@ if __name__ == '__main__':
 @app.route('/')
 def index():
     '''Index page route'''
-    return app.send_static_file('public/index.html')
-    #return app.send_static_file(url_for('static', filename='index.html'))
+    #return app.send_static_file('public/index.html')
+    return app.send_static_file(url_for('static', filename='index.html'))
