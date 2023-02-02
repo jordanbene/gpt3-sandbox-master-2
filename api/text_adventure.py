@@ -23,7 +23,7 @@ from api import UIConfig, master_prompt_loader
 #from api import GPT, Example, UIConfig, master_prompt_loader
 from api import demo_web_app
 
-app = Flask(__name__, static_folder='./build', static_url_path='/')
+app = Flask(__name__, static_folder='../build', static_url_path='/')
 
 if __name__ == '__main__':
     app.run(debug=True)
